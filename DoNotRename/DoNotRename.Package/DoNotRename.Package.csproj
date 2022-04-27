@@ -9,14 +9,14 @@
 
   <PropertyGroup>
     <PackageId>DoNotRename</PackageId>
-    <PackageVersion>1.0.0.0</PackageVersion>
+    <PackageVersion>1.0.0.1</PackageVersion>
     <Authors>Tobias Kullblikk</Authors>
-    <PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
-    <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://www.nuget.org/packages/DoNotRename</PackageProjectUrl>
     <PackageIconUrl>X</PackageIconUrl>
     <RepositoryUrl>https://github.com/TobiasKullblikk/DoNotRename</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Analyzer guard for protecting classed against rename attack</Description>
+    <Description>Analyzer guard for protecting classes against rename attack</Description>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Copyright>No (c)</Copyright>
     <PackageTags>DoNotRename, analyzers</PackageTags>

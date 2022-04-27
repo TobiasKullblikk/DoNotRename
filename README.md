@@ -1,3 +1,3 @@
 # DoNotRename Analyzer
 
-Analyzer guard for protecting classed against rename attack
+Analyzer guard for protecting classes against rename attack
