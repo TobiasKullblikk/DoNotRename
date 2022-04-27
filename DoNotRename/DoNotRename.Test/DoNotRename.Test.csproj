@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DoNotRename.CodeFixes\DoNotRename.CodeFixes.csproj" />
     <ProjectReference Include="..\DoNotRename\DoNotRename.csproj" />
   </ItemGroup>
 
