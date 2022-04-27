@@ -10,15 +10,15 @@
   <PropertyGroup>
     <PackageId>DoNotRename</PackageId>
     <PackageVersion>1.0.0.0</PackageVersion>
-    <Authors>Tobia</Authors>
-    <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
+    <Authors>Tobias Kullblikk</Authors>
+    <PackageLicenseUrl>OPEN SOURCE</PackageLicenseUrl>
     <PackageProjectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</PackageProjectUrl>
-    <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
-    <RepositoryUrl>http://REPOSITORY_URL_HERE_OR_DELETE_THIS_LINE</RepositoryUrl>
+    <PackageIconUrl>X</PackageIconUrl>
+    <RepositoryUrl>https://github.com/TobiasKullblikk/DoNotRename</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>DoNotRename</Description>
-    <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
-    <Copyright>Copyright</Copyright>
+    <Description>Analyzer guard for protecting classed against rename attack</Description>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Copyright>No (c)</Copyright>
     <PackageTags>DoNotRename, analyzers</PackageTags>
     <DevelopmentDependency>true</DevelopmentDependency>
     <NoPackageAnalysis>true</NoPackageAnalysis>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="DoNotRename.19e8063f-1023-42d1-845f-42bbfc995896" Version="1.0" Language="en-US" Publisher="Tobia"/>
+    <Identity Id="DoNotRename.19e8063f-1023-42d1-845f-42bbfc995896" Version="1.0" Language="en-US" Publisher="Tobias Kullblikk"/>
     <DisplayName>DoNotRename</DisplayName>
-    <Description xml:space="preserve">This is a sample diagnostic extension for the .NET Compiler Platform ("Roslyn").</Description>
+    <Description xml:space="preserve">Analyzer guard for protecting classed against rename attack</Description>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,)" />
