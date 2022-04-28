@@ -28,7 +28,7 @@ namespace DoNotRename.Test
         [TestMethod]
         public async Task NoErrorTest()
         {
-            var test = @"
+            TestCode = @"
     using DoNotRename;
 
     namespace ConsoleApplication1
@@ -37,14 +37,13 @@ namespace DoNotRename.Test
         class TYPENAME { }
     }";
 
-            TestCode = test;
             await RunAsync();
         }
 
         [TestMethod]
         public async Task NoAttributeTest()
         {
-            var test = @"
+            TestCode = @"
     using DoNotRename;
 
     namespace ConsoleApplication1
@@ -52,7 +51,102 @@ namespace DoNotRename.Test
         class TYPENAME { }
     }";
 
-            TestCode = test;
+            await RunAsync();
+        }
+
+        [TestMethod]
+        public async Task NotClassTest()
+        {
+            TestCode = @"
+    using DoNotRename;
+
+    namespace ConsoleApplication1
+    {
+        [DoNotRenameClass(""TYPENAME"")]
+        enum TYPENAME { }
+    }";
+
+            var expected = DiagnosticResult.CompilerError("CS0592")
+                .WithSpan(6, 10, 6, 26) // TODO: can this be more readable?
+                .WithArguments("DoNotRenameClass", "class");
+            ExpectedDiagnostics.Add(expected);
+
+            await RunAsync();
+        }
+
+        [TestMethod]
+        public async Task AnotherAttributeTest()
+        {
+            TestCode = @"
+    using System;
+
+    namespace ConsoleApplication1
+    {
+        class ATTRIBUTEAttribute : Attribute { }
+
+        [ATTRIBUTE]
+        class TYPENAME { }
+    }";
+
+            await RunAsync();
+        }
+
+        [TestMethod]
+        public async Task DoNotRenameClassAttributeWorksWithAnotherAttributeTest_1()
+        {
+            TestCode = @"
+    using System;
+    using DoNotRename;
+
+    namespace ConsoleApplication1
+    {
+        class ATTRIBUTEAttribute : Attribute { }
+
+        [ATTRIBUTE]
+        [DoNotRenameClass(""NOT_TYPENAME"")]
+        class TYPENAME { }
+    }";
+
+            var expected = new DiagnosticDescriptor(
+                "DoNotRenameAnalyzer_NotMatchingClassName",
+                "Class should not be renamed",
+                "Class 'TYPENAME' does not match DoNotRenameClassAttribute 'className' argument value",
+                "Naming",
+                DiagnosticSeverity.Error,
+                true);
+            ExpectedDiagnostics.Add(new DiagnosticResult(expected)
+                .WithSpan(11, 15, 11, 23) // TODO: can this be more readable?
+                .WithArguments("TYPENAME"));
+
+            await RunAsync();
+        }
+
+        [TestMethod]
+        public async Task DoNotRenameClassAttributeWorksWithAnotherAttributeTest_2()
+        {
+            TestCode = @"
+    using System;
+    using DoNotRename;
+
+    namespace ConsoleApplication1
+    {
+        class ATTRIBUTEAttribute : Attribute { }
+
+        [ATTRIBUTE, DoNotRenameClass(""NOT_TYPENAME"")]
+        class TYPENAME { }
+    }";
+
+            var expected = new DiagnosticDescriptor(
+                "DoNotRenameAnalyzer_NotMatchingClassName",
+                "Class should not be renamed",
+                "Class 'TYPENAME' does not match DoNotRenameClassAttribute 'className' argument value",
+                "Naming",
+                DiagnosticSeverity.Error,
+                true);
+            ExpectedDiagnostics.Add(new DiagnosticResult(expected)
+                .WithSpan(10, 15, 10, 23) // TODO: can this be more readable?
+                .WithArguments("TYPENAME"));
+
             await RunAsync();
         }
 
