@@ -68,17 +68,24 @@ namespace DoNotRename
                 var classDeclarationSyntax = context.Symbol.DeclaringSyntaxReferences
                     .First() // TODO: support partial classes?
                     .GetSyntax()
-                    .FindNode(new Microsoft.CodeAnalysis.Text.TextSpan(context.Symbol.Locations[0].SourceSpan.Start, 1)) as ClassDeclarationSyntax; 
-                    // TODO: will it work with length = 0?
+                    .FindNode(new Microsoft.CodeAnalysis.Text.TextSpan(context.Symbol.Locations[0].SourceSpan.Start, 1)) as ClassDeclarationSyntax;
+                // TODO: will it work with length = 0?
 
+                if (classDeclarationSyntax == null)
+                {
+                    return;
+                }
+
+                bool hasDoNotRenameClassAttribute = false;
                 int attributeIndex = 0;
                 var attributes = context.Symbol.GetAttributes();
                 foreach (var attributeList in classDeclarationSyntax.AttributeLists)
                 {
                     foreach (var attribute in attributeList.Attributes)
                     {
-                        if (IsDoNotRenameClassAttribute(attributes[attributeIndex]))
+                        if (IsDoNotRenameClassAttribute(attributes[attributeIndex++]))
                         {
+                            hasDoNotRenameClassAttribute = true;
                             var firstArgumentSyntax = (attribute.ArgumentList.ChildNodes().First() as AttributeArgumentSyntax);
                             var kind = firstArgumentSyntax.Expression.Kind();
                             if (kind != SyntaxKind.StringLiteralExpression)
@@ -89,12 +96,10 @@ namespace DoNotRename
                                 context.ReportDiagnostic(diagnostic);
                             }
                         }
-
-                        attributeIndex++;
                     }
                 }
 
-                if (attributeIndex > 0)
+                if (hasDoNotRenameClassAttribute)
                 {
                     var className = context.Symbol.Name;
 
