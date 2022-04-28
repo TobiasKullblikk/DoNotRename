@@ -42,6 +42,21 @@ namespace DoNotRename.Test
         }
 
         [TestMethod]
+        public async Task NoAttributeTest()
+        {
+            var test = @"
+    using DoNotRename;
+
+    namespace ConsoleApplication1
+    {
+        class TYPENAME { }
+    }";
+
+            TestCode = test;
+            await RunAsync();
+        }
+
+        [TestMethod]
         public async Task NotMathcingClassNameTest()
         {
             TestCode = @"

@@ -67,8 +67,6 @@ namespace DoNotRename
                     .FindNode(new Microsoft.CodeAnalysis.Text.TextSpan(context.Symbol.Locations[0].SourceSpan.Start, 1)) as ClassDeclarationSyntax; 
                     // TODO: will it work with length = 0?
 
-                var qwe = classDeclarationSyntax.AttributeLists[0].Attributes[0].ArgumentList.ChildNodes().First() as AttributeArgumentSyntax;
-
                 int attributeIndex = 0;
                 var attributes = context.Symbol.GetAttributes();
                 foreach (var attributeList in classDeclarationSyntax.AttributeLists)
@@ -77,11 +75,12 @@ namespace DoNotRename
                     {
                         if (IsDoNotRenameClassAttribute(attributes[attributeIndex]))
                         {
-                            var kind = (attribute.ArgumentList.ChildNodes().First() as AttributeArgumentSyntax).Expression.Kind();
+                            var firstArgumentSyntax = (attribute.ArgumentList.ChildNodes().First() as AttributeArgumentSyntax);
+                            var kind = firstArgumentSyntax.Expression.Kind();
                             if (kind != SyntaxKind.StringLiteralExpression)
                             {
                                 // Register error not string litteral
-                                var diagnostic = Diagnostic.Create(NotStringLiteralArgumentRule, qwe.GetLocation());
+                                var diagnostic = Diagnostic.Create(NotStringLiteralArgumentRule, firstArgumentSyntax.GetLocation());
                                 // TODO: Support partial classes? (Locations[0])
                                 context.ReportDiagnostic(diagnostic);
                             }
@@ -91,21 +90,24 @@ namespace DoNotRename
                     }
                 }
 
-                var className = context.Symbol.Name;
-
-                var doNotRenameAttribute = attributes
-                    .Where(IsDoNotRenameClassAttribute)
-                    .Single(); // TODO: how should analyzers handle exceptions etc?
-
-                if (doNotRenameAttribute != null)
+                if (attributeIndex > 0)
                 {
-                    var constructorNameArgumentValue = doNotRenameAttribute.ConstructorArguments[0].Value as string;
-                    if (constructorNameArgumentValue != className)
+                    var className = context.Symbol.Name;
+
+                    var doNotRenameAttribute = attributes
+                        .Where(IsDoNotRenameClassAttribute)
+                        .Single(); // TODO: how should analyzers handle exceptions etc?
+
+                    if (doNotRenameAttribute != null)
                     {
-                        // ClassName does not match DoNotRenameClassAttribute constructor argument 'className'
-                        var diagnostic = Diagnostic.Create(NotMatchingClassNameRule, context.Symbol.Locations[0], className);
-                        // TODO: support partial classes? (Locations[0])
-                        context.ReportDiagnostic(diagnostic);
+                        var constructorNameArgumentValue = doNotRenameAttribute.ConstructorArguments[0].Value as string;
+                        if (constructorNameArgumentValue != className)
+                        {
+                            // ClassName does not match DoNotRenameClassAttribute constructor argument 'className'
+                            var diagnostic = Diagnostic.Create(NotMatchingClassNameRule, context.Symbol.Locations[0], className);
+                            // TODO: support partial classes? (Locations[0])
+                            context.ReportDiagnostic(diagnostic);
+                        }
                     }
                 }
             }
