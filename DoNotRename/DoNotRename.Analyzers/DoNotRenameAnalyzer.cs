@@ -15,6 +15,7 @@ namespace DoNotRename
     public class DoNotRenameAnalyzer : DiagnosticAnalyzer
     {
         public const string NOT_MATCHING_CLASS_NAME_RULE_ID = "DoNotRenameAnalyzer_NotMatchingClassName";
+        public const string NOT_MATCHING_CLASS_NAME_WITH_REASON_RULE_ID = "DoNotRenameAnalyzer_NotMatchingClassNameWithReason";
         public const string NOT_STRING_LITERAL_ARGUMENT_VALUE_RULE_ID = "DoNotRenameAnalyzer_NotStringLiteralArgumentValue";
 
         // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
@@ -24,9 +25,11 @@ namespace DoNotRename
         private const string Category = "Naming";
 
         private static readonly LocalizableString NotMatchingClassNameMessageFormat = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat_NotMatchingClassName), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString NotMatchingClassNameWithReasonMessageFormat = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat_NotMatchingClassNameWithReason), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString NotStringLiteralArgumentValueMessageFormat = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat_NotStringLiteralArgumentValue), Resources.ResourceManager, typeof(Resources));
 
         private static readonly DiagnosticDescriptor NotMatchingClassNameRule = new DiagnosticDescriptor(NOT_MATCHING_CLASS_NAME_RULE_ID, Title, NotMatchingClassNameMessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+        private static readonly DiagnosticDescriptor NotMatchingClassNameWithReasonRule = new DiagnosticDescriptor(NOT_MATCHING_CLASS_NAME_WITH_REASON_RULE_ID, Title, NotMatchingClassNameWithReasonMessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
         private static readonly DiagnosticDescriptor NotStringLiteralArgumentRule = new DiagnosticDescriptor(NOT_STRING_LITERAL_ARGUMENT_VALUE_RULE_ID, Title, NotStringLiteralArgumentValueMessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
@@ -34,6 +37,7 @@ namespace DoNotRename
             get => new DiagnosticDescriptor[] 
             {
                 NotMatchingClassNameRule,
+                NotMatchingClassNameWithReasonRule,
                 NotStringLiteralArgumentRule,
             }.ToImmutableArray();
         }
@@ -104,9 +108,25 @@ namespace DoNotRename
                         if (constructorNameArgumentValue != className)
                         {
                             // ClassName does not match DoNotRenameClassAttribute constructor argument 'className'
-                            var diagnostic = Diagnostic.Create(NotMatchingClassNameRule, context.Symbol.Locations[0], className);
-                            // TODO: support partial classes? (Locations[0])
-                            context.ReportDiagnostic(diagnostic);
+                            string reason = null;
+
+                            if (doNotRenameAttribute.ConstructorArguments.Count() > 1)
+                            {
+                                reason = doNotRenameAttribute.ConstructorArguments[1].Value as string;
+                            }
+
+                            if (string.IsNullOrEmpty(reason))
+                            {
+                                var diagnostic = Diagnostic.Create(NotMatchingClassNameRule, context.Symbol.Locations[0], className);
+                                // TODO: support partial classes? (Locations[0])
+                                context.ReportDiagnostic(diagnostic);
+                            } 
+                            else
+                            {
+                                var diagnostic = Diagnostic.Create(NotMatchingClassNameWithReasonRule, context.Symbol.Locations[0], className, reason);
+                                // TODO: support partial classes? (Locations[0])
+                                context.ReportDiagnostic(diagnostic);
+                            }
                         }
                     }
                 }

@@ -12,7 +12,7 @@ namespace DoNotRename
     public class DoNotRenameClassAttribute : Attribute
     {
 #pragma warning disable IDE0060 // Remove unused parameter
-        public DoNotRenameClassAttribute(string className) { }
+        public DoNotRenameClassAttribute(string className, string reason = null) { }
 #pragma warning restore IDE0060 // Remove unused parameter
     }
 }

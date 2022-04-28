@@ -125,6 +125,10 @@
     <value>Class '{0}' does not match DoNotRenameClassAttribute 'className' argument value</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
+  <data name="AnalyzerMessageFormat_NotMatchingClassNameWithReason" xml:space="preserve">
+    <value>Class '{0}' does not match DoNotRenameClassAttribute 'className' argument value. Reason: {1}</value>
+    <comment>The format-able message the diagnostic displays.</comment>
+  </data>
   <data name="AnalyzerMessageFormat_NotStringLiteralArgumentValue" xml:space="preserve">
     <value>DoNotRenameClassAttribute constructor argument 'className' should only be set with a string litteral</value>
     <comment>The format-able message the diagnostic displays.</comment>

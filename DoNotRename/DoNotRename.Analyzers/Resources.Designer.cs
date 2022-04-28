@@ -79,6 +79,15 @@ namespace DoNotRename.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Class &apos;{0}&apos; does not match DoNotRenameClassAttribute &apos;className&apos; argument value. Reason: {1}.
+        /// </summary>
+        internal static string AnalyzerMessageFormat_NotMatchingClassNameWithReason {
+            get {
+                return ResourceManager.GetString("AnalyzerMessageFormat_NotMatchingClassNameWithReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DoNotRenameClassAttribute constructor argument &apos;className&apos; should only be set with a string litteral.
         /// </summary>
         internal static string AnalyzerMessageFormat_NotStringLiteralArgumentValue {

@@ -83,6 +83,32 @@ namespace DoNotRename.Test
         }
 
         [TestMethod]
+        public async Task NotMathcingClassNameWithReasonTest()
+        {
+            TestCode = @"
+    using DoNotRename;
+
+    namespace ConsoleApplication1
+    {
+        [DoNotRenameClass(""NOT_TYPENAME"", ""REASON"")]
+        class TYPENAME { }
+    }";
+
+            var expected = new DiagnosticDescriptor(
+                "DoNotRenameAnalyzer_NotMatchingClassNameWithReason",
+                "Class should not be renamed",
+                "Class 'TYPENAME' does not match DoNotRenameClassAttribute 'className' argument value. Reason: REASON",
+                "Naming",
+                DiagnosticSeverity.Error,
+                true);
+            ExpectedDiagnostics.Add(new DiagnosticResult(expected)
+                .WithSpan(7, 15, 7, 23) // TODO: can this be more readable?
+                .WithArguments("TYPENAME"));
+
+            await RunAsync();
+        }
+
+        [TestMethod]
         public async Task NotStringLiteralTest_AddExpression()
         {
             TestCode = @"
