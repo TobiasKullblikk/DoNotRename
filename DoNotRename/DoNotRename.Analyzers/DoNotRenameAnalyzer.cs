@@ -68,8 +68,7 @@ namespace DoNotRename
                 var classDeclarationSyntax = context.Symbol.DeclaringSyntaxReferences
                     .First() // TODO: support partial classes?
                     .GetSyntax()
-                    .FindNode(new Microsoft.CodeAnalysis.Text.TextSpan(context.Symbol.Locations[0].SourceSpan.Start, 1)) as ClassDeclarationSyntax;
-                // TODO: will it work with length = 0?
+                    .FindNode(new Microsoft.CodeAnalysis.Text.TextSpan(context.Symbol.Locations[0].SourceSpan.Start, 0)) as ClassDeclarationSyntax;
 
                 if (classDeclarationSyntax == null)
                 {
