@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <PackageId>DoNotRename</PackageId>
-    <PackageVersion>1.0.0.4</PackageVersion>
+    <PackageVersion>1.0.1.0</PackageVersion>
     <Authors>Tobias Kullblikk</Authors>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://www.nuget.org/packages/DoNotRename</PackageProjectUrl>
