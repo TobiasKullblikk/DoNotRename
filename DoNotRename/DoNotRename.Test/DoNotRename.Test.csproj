@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DoNotRename\DoNotRename.csproj" />
+    <ProjectReference Include="..\DoNotRename.Analyzers\DoNotRename.Analyzers.csproj" />
   </ItemGroup>
 
 </Project>
